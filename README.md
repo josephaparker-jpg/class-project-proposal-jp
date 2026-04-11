@@ -1,35 +1,76 @@
-# Random Baking Recipe Generator
+🍪 Random Baking Recipe Generator
 
-## Project Description
-This project is a baking recipe generator website that helps users discover something new to bake. Users can randomly generate recipes for cakes, cookies, brownies, muffins, and cupcakes.
+📌 Project Overview
 
-The website includes recipe instructions, ingredients, difficulty level, baking time, and tutorial videos to help guide the user through the baking process.
+The Random Baking Recipe Generator is an interactive web application designed to help users discover new recipes in a fun and engaging way. By combining a “Baking Roulette” system with dynamic content, users can randomly generate recipes and receive full baking instructions, ingredients, and timing guidance.
 
-## Features
+This project demonstrates the integration of user interaction, animation, and real-time functionality into a cohesive web experience.
 
-- Random "Bakeing Roulette " generator
-- Category pages for different baked goods
-- Recipe randomization using JavaScript
-- Ingredients and baking instructions
-- Embedded YouTube tutorial videos
-- Recipe saving system using localStorage
-- Built-in baking timer
-- Search bar for recipe categories
+🌐 Live Demo
 
-## Technologies Used
+🔗 https://josephaparker-jpg.github.io/class-project-proposal-jp/
 
-- HTML – page structure
-- CSS – layout and styling
-- JavaScript – dynamic content and interaction
-- localStorage – saving recipes
-- Embedded YouTube videos
+This live version showcases the Baking Roulette system, including the animated wheel, recipe generation, and built-in baking timer.
 
-## Website Flow
+👀 Preview
 
-Homepage → Category Page → Random Recipe Generator → Recipe Display → Save Recipe / Start Timer
+Try the live app above to:
 
-## Author
+Spin the wheel 🎡
+Generate a random recipe 🎲
+View ingredients and steps 🧾
+Use the built-in baking timer ⏱
+🚀 Features
+🎲 Baking Roulette Generator – randomly selects a recipe
+🎡 Animated Wheel Interface – floating icons with selection animation
+🧾 Full Recipe Display – ingredients + step-by-step instructions
+🌡 Temperature Display – shows required baking temperature
+⏱ Built-in Baking Timer – start, pause, and reset functionality
+🖨 Print Recipe Option – easily print selected recipes
+🛠 Technologies Used
+HTML – structure and layout
+CSS – styling, animations, and UI design
+JavaScript – dynamic behavior, logic, and interactivity
+🎮 How It Works
+User clicks Spin
+The wheel animates with floating icons
+A random recipe is selected
+The selected item is highlighted visually
+Recipe details are displayed:
+Ingredients
+Instructions
+Temperature
+Baking time
+User can:
+Start a timer
+Print the recipe
+📂 Project Structure
+/project-folder
+│── index.html
+│── style.css
+│── script.js
+│── /images
+🎯 Learning Objectives
 
-Joseph Parker  
-CPSC 20000  
+This project was created to demonstrate:
+
+DOM manipulation and event handling
+JavaScript-based randomization logic
+UI/UX design with animations
+Managing interactive state (timer + UI updates)
+Building a complete interactive web application
+🤖 Acknowledgment & Academic Use
+
+This project was developed as part of coursework for CPSC 20000 at Lewis University.
+
+During development, I utilized ChatGPT as a supplemental tool to assist with brainstorming ideas, debugging, and expanding features such as animation, timers, and interactivity.
+
+All final implementation, design decisions, and integration of features were completed and reviewed by me to ensure full understanding of the material.
+
+This project is intended for academic purposes only and represents my personal learning and application of web development concepts.
+
+👤 Author
+
+Joseph Parker
+CPSC 20000 – Introduction to Computer Science
 Lewis University
