@@ -1,4 +1,8 @@
 /* =========================
+   script.js
+========================= */
+
+/* =========================
    GLOBAL CONTROL
 ========================= */
 
@@ -289,31 +293,19 @@ function resetTimer() {
 
 function showRecipe(recipe) {
 
-  /* NAME */
-
   document.getElementById("recipe-name")
   .textContent = recipe.name;
-
-  /* TYPE */
 
   document.getElementById("recipe-type")
   .textContent = recipe.type;
 
-  /* TEMP */
-
   document.getElementById("recipe-temp")
   .textContent =
-
   "Bake at: " + recipe.temp;
-
-  /* TIME */
 
   document.getElementById("recipe-time")
   .textContent =
-
   "Bake Time: " + recipe.time + " min";
-
-  /* IMAGE */
 
   const img =
     document.getElementById("recipe-image");
@@ -382,17 +374,11 @@ function spinRoulette() {
 
   isSpinning = true;
 
-  /* WHEEL */
-
   const wheel =
     document.getElementById("wheel");
 
-  /* CARD */
-
   const card =
     document.querySelector(".card");
-
-  /* SOUND */
 
   const sound =
     document.getElementById("spin-sound");
@@ -405,7 +391,7 @@ function spinRoulette() {
 
   sound.play();
 
-  /* RANDOM ROTATION */
+  /* ROTATE WHEEL */
 
   const rotation =
     3600 + Math.floor(Math.random() * 360);
@@ -421,8 +407,6 @@ function spinRoulette() {
   /* WAIT FOR SPIN */
 
   setTimeout(() => {
-
-    /* SHOW RECIPE */
 
     showRecipe(selected);
 
@@ -442,13 +426,26 @@ function spinRoulette() {
 
     sound.currentTime = 0;
 
-    /* SPIN COMPLETE */
-
     isSpinning = false;
 
   }, 4000);
 
 }
+
+/* =========================
+   LAST UPDATED
+========================= */
+
+const today = new Date();
+
+document.getElementById("last-updated")
+.innerHTML =
+
+`
+🍪 Baking Roulette v2.0<br>
+Last Updated:
+${today.toLocaleDateString()}
+`;
 
 /* =========================
    START DISPLAY
