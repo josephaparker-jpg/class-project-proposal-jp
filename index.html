@@ -1,56 +1,570 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <title>Baking Roulette 🎲</title>
-  <link rel="stylesheet" href="style.css">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Baking Roulette 🎲</title>
+
+<style>
+
+/* =========================
+   BODY
+========================= */
+
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background: linear-gradient(to bottom,#fff1f0,#ffd5c2);
+  margin: 0;
+  padding: 20px;
+}
+
+h1 {
+  margin-bottom: 10px;
+  color: #333;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+button {
+  padding: 10px 20px;
+  margin: 10px;
+  border-radius: 8px;
+  background-color: #ff914d;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+button:hover {
+  background-color: #ff6f1a;
+  transform: scale(1.05);
+}
+
+/* =========================
+   WHEEL
+========================= */
+
+.wheel-container {
+  margin: 20px auto;
+  width: 220px;
+  height: 220px;
+  border: 6px solid #333;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  background: white;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+}
+
+#wheel {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transition: transform 4s cubic-bezier(.17,.67,.15,1);
+}
+
+.icon {
+  position: absolute;
+  font-size: 28px;
+  transition: all 0.4s ease;
+}
+
+.selected {
+  transform: scale(2) translateY(-120px);
+}
+
+/* =========================
+   CARD
+========================= */
+
+.card {
+  margin: auto;
+  width: 320px;
+  padding: 20px;
+  border-radius: 15px;
+  background-color: white;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  transition: all 0.5s ease;
+}
+
+.card.win {
+  animation: winGlow 1s ease;
+}
+
+@keyframes winGlow {
+
+  0% {
+    box-shadow: 0 0 0px #ff914d;
+  }
+
+  50% {
+    box-shadow: 0 0 40px #ff914d;
+  }
+
+  100% {
+    box-shadow: 0 0 0px #ff914d;
+  }
+
+}
+
+#recipe-image {
+  width: 100%;
+  border-radius: 10px;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+/* =========================
+   TIMER
+========================= */
+
+#timer-display {
+  font-size: 28px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+/* =========================
+   LISTS
+========================= */
+
+ul,
+ol {
+  text-align: left;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:500px){
+
+  .card{
+    width:90%;
+  }
+
+  .wheel-container{
+    width:180px;
+    height:180px;
+  }
+
+}
+
+</style>
+
 </head>
 
 <body>
 
-  <h1>Baking Roulette 🎲</h1>
+<h1>Baking Roulette 🎲</h1>
 
-  <div class="wheel-container">
-    <div id="wheel">
-      <span class="icon">🍪</span>
-      <span class="icon">🍪</span>
-      <span class="icon">🍫</span>
-      <span class="icon">🍰</span>
-      <span class="icon">🍰</span>
-      <span class="icon">🧁</span>
-    </div>
+<p>
+Spin and discover a random baked recipe!
+</p>
+
+<!-- =========================
+     WHEEL
+========================= -->
+
+<div class="wheel-container">
+
+  <div id="wheel">
+
+    <span class="icon" style="top:20px;left:90px;">🍪</span>
+    <span class="icon" style="top:60px;left:160px;">🍫</span>
+    <span class="icon" style="top:140px;left:150px;">🍰</span>
+    <span class="icon" style="top:180px;left:90px;">🧁</span>
+    <span class="icon" style="top:140px;left:20px;">🍩</span>
+    <span class="icon" style="top:60px;left:20px;">🥧</span>
+
   </div>
 
-  <button onclick="spinRoulette()">Spin</button>
+</div>
 
-  <audio id="spin-sound" src="sounds/spin.mp3"></audio>
+<button onclick="spinRoulette()">
+🎡 Spin
+</button>
 
-  <div class="card">
-    <h2 id="recipe-name">Click Spin!</h2>
-    <h3 id="recipe-type"></h3>
-    <h4 id="recipe-temp"></h4>
-    <h4 id="recipe-time"></h4>
+<!-- =========================
+     AUDIO
+========================= -->
 
-    <img id="recipe-image" src="" alt="Recipe Image">
+<audio id="spin-sound" src="spinner.mp3"></audio>
 
-    <h4>Ingredients:</h4>
-    <ul id="ingredients-list"></ul>
+<!-- =========================
+     CARD
+========================= -->
 
-    <h4>Steps:</h4>
-    <ol id="steps-list"></ol>
+<div class="card">
 
-    <h4>Baking Timer:</h4>
-    <div id="timer-display">00:00</div>
+  <h2 id="recipe-name">
+    Click Spin!
+  </h2>
 
-    <div class="timer-buttons">
-      <button onclick="startTimer()">Start</button>
-      <button onclick="pauseTimer()">Pause</button>
-      <button onclick="resetTimer()">Reset</button>
-    </div>
+  <h3 id="recipe-type"></h3>
 
-    <button onclick="window.print()">Print Recipe</button>
+  <h4 id="recipe-temp"></h4>
+
+  <h4 id="recipe-time"></h4>
+
+  <img id="recipe-image" src="" alt="Recipe Image">
+
+  <h4>Ingredients:</h4>
+
+  <ul id="ingredients-list"></ul>
+
+  <h4>Steps:</h4>
+
+  <ol id="steps-list"></ol>
+
+  <h4>Baking Timer:</h4>
+
+  <div id="timer-display">
+    00:00
   </div>
 
-  <script src="script.js"></script>
+  <div class="timer-buttons">
+
+    <button onclick="startTimer()">
+      ▶ Start
+    </button>
+
+    <button onclick="pauseTimer()">
+      ⏸ Pause
+    </button>
+
+    <button onclick="resetTimer()">
+      🔄 Reset
+    </button>
+
+  </div>
+
+  <button onclick="window.print()">
+    🖨 Print Recipe
+  </button>
+
+</div>
+
+<script>
+
+/* ================= GLOBAL CONTROL ================= */
+
+let timer;
+let timeLeft = 0;
+let isRunning = false;
+let isSpinning = false;
+
+/* ================= RECIPES ================= */
+
+const recipes = [
+
+  {
+    name: "Chocolate Chip Cookies",
+
+    image:
+    "https://upload.wikimedia.org/wikipedia/commons/7/70/Chocolate_Chip_Cookies_-_kimberlykv.jpg",
+
+    type: "Cookies",
+
+    temp: "350°F",
+
+    time: 12,
+
+    ingredients: [
+      "2 cups flour",
+      "1 cup sugar",
+      "1 cup chocolate chips"
+    ],
+
+    steps: [
+      "Preheat oven to 350°F",
+      "Mix ingredients",
+      "Bake 10–12 minutes"
+    ]
+  },
+
+  {
+    name: "Brownies",
+
+    image:
+    "https://upload.wikimedia.org/wikipedia/commons/6/68/Chocolatebrownie.JPG",
+
+    type: "Brownies",
+
+    temp: "350°F",
+
+    time: 25,
+
+    ingredients: [
+      "1 cup sugar",
+      "1/2 cup butter",
+      "2 eggs"
+    ],
+
+    steps: [
+      "Preheat oven",
+      "Mix ingredients",
+      "Bake 20–25 minutes"
+    ]
+  },
+
+  {
+    name: "Vanilla Cake",
+
+    image:
+    "https://upload.wikimedia.org/wikipedia/commons/a/a5/Vanilla_cake.jpg",
+
+    type: "Cake",
+
+    temp: "350°F",
+
+    time: 30,
+
+    ingredients: [
+      "2 cups flour",
+      "1 cup sugar",
+      "Vanilla extract"
+    ],
+
+    steps: [
+      "Preheat oven",
+      "Mix ingredients",
+      "Bake 25–30 minutes"
+    ]
+  },
+
+  {
+    name: "Cupcakes",
+
+    image:
+    "https://upload.wikimedia.org/wikipedia/commons/0/05/Cupcakes.jpg",
+
+    type: "Cupcakes",
+
+    temp: "350°F",
+
+    time: 18,
+
+    ingredients: [
+      "Flour",
+      "Sugar",
+      "Butter",
+      "Eggs"
+    ],
+
+    steps: [
+      "Mix ingredients",
+      "Pour into liners",
+      "Bake 18 minutes"
+    ]
+  }
+
+];
+
+/* ================= TIMER ================= */
+
+function updateTimerDisplay() {
+
+  const m = Math.floor(timeLeft / 60);
+  const s = timeLeft % 60;
+
+  document.getElementById("timer-display").textContent =
+    `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+
+}
+
+function startTimer() {
+
+  if (isRunning) return;
+
+  isRunning = true;
+
+  timer = setInterval(() => {
+
+    if (timeLeft > 0) {
+
+      timeLeft--;
+      updateTimerDisplay();
+
+    } else {
+
+      clearInterval(timer);
+
+      isRunning = false;
+
+      alert("⏰ Baking Complete!");
+
+    }
+
+  }, 1000);
+
+}
+
+function pauseTimer() {
+
+  clearInterval(timer);
+
+  isRunning = false;
+
+}
+
+function resetTimer() {
+
+  clearInterval(timer);
+
+  isRunning = false;
+
+  updateTimerDisplay();
+
+}
+
+/* ================= DISPLAY ================= */
+
+function showRecipe(recipe) {
+
+  document.getElementById("recipe-name").textContent =
+    recipe.name;
+
+  document.getElementById("recipe-type").textContent =
+    recipe.type;
+
+  document.getElementById("recipe-temp").textContent =
+    "Bake at: " + recipe.temp;
+
+  document.getElementById("recipe-time").textContent =
+    "Bake Time: " + recipe.time + " min";
+
+  const img =
+    document.getElementById("recipe-image");
+
+  img.style.opacity = 0;
+
+  setTimeout(() => {
+
+    img.src = recipe.image;
+
+    img.style.opacity = 1;
+
+  }, 200);
+
+  /* INGREDIENTS */
+
+  const ing =
+    document.getElementById("ingredients-list");
+
+  ing.innerHTML = "";
+
+  recipe.ingredients.forEach(item => {
+
+    const li =
+      document.createElement("li");
+
+    li.textContent = item;
+
+    ing.appendChild(li);
+
+  });
+
+  /* STEPS */
+
+  const steps =
+    document.getElementById("steps-list");
+
+  steps.innerHTML = "";
+
+  recipe.steps.forEach(step => {
+
+    const li =
+      document.createElement("li");
+
+    li.textContent = step;
+
+    steps.appendChild(li);
+
+  });
+
+  /* TIMER */
+
+  timeLeft = recipe.time * 60;
+
+  updateTimerDisplay();
+
+}
+
+/* ================= SPIN ================= */
+
+function spinRoulette() {
+
+  if (isSpinning) return;
+
+  isSpinning = true;
+
+  const wheel =
+    document.getElementById("wheel");
+
+  const card =
+    document.querySelector(".card");
+
+  const sound =
+    document.getElementById("spin-sound");
+
+  /* PLAY SOUND */
+
+  sound.pause();
+
+  sound.currentTime = 0;
+
+  sound.play();
+
+  /* ROTATION */
+
+  const rotation =
+    3600 + Math.floor(Math.random() * 360);
+
+  wheel.style.transform =
+    `rotate(${rotation}deg)`;
+
+  /* RANDOM RECIPE */
+
+  const selected =
+    recipes[Math.floor(Math.random() * recipes.length)];
+
+  /* WAIT FOR SPIN */
+
+  setTimeout(() => {
+
+    showRecipe(selected);
+
+    card.classList.add("win");
+
+    setTimeout(() => {
+
+      card.classList.remove("win");
+
+    }, 1000);
+
+    sound.pause();
+
+    sound.currentTime = 0;
+
+    isSpinning = false;
+
+  }, 4000);
+
+}
+
+/* ================= START ================= */
+
+updateTimerDisplay();
+
+</script>
+
 </body>
 </html>

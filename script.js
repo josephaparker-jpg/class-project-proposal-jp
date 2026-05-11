@@ -1,175 +1,457 @@
-// ================= GLOBAL CONTROL =================
-let spinInterval;
-let floatInterval;
-let isSpinning = false;
+/* =========================
+   GLOBAL CONTROL
+========================= */
 
-// ================= RECIPES =================
-const recipes = [
-  {
-    name: "Chocolate Chip Cookies",
-    image: "chocolate-chip-muffins.jpg",
-    type: "Cookies",
-    temp: "350°F",
-    time: 12,
-    ingredients: ["2 cups flour","1 cup sugar","1 cup chocolate chips"],
-    steps: ["Preheat oven to 350°F","Mix ingredients","Bake 10–12 min"]
-  },
-  {
-    name: "Brownies",
-    image: "brownies.jpg",
-    type: "Brownies",
-    temp: "350°F",
-    time: 25,
-    ingredients: ["1 cup sugar","1/2 cup butter","2 eggs"],
-    steps: ["Preheat oven","Mix","Bake 20–25 min"]
-  },
-  {
-    name: "Vanilla Cake",
-    image: "vanilla-cake.jpg",
-    type: "Cakes",
-    temp: "350°F",
-    time: 30,
-    ingredients: ["2 cups flour","1 cup sugar"],
-    steps: ["Preheat oven","Mix","Bake 25–30 min"]
-  }
-];
-
-// ================= TIMER =================
 let timer;
 let timeLeft = 0;
+
 let isRunning = false;
+let isSpinning = false;
+
+/* =========================
+   RECIPES
+========================= */
+
+const recipes = [
+
+  {
+    name: "Chocolate Chip Muffins",
+
+    image: "chocolate-chip-muffins.jpg",
+
+    type: "Muffins",
+
+    temp: "350°F",
+
+    time: 18,
+
+    ingredients: [
+      "2 cups flour",
+      "Chocolate chips",
+      "Milk"
+    ],
+
+    steps: [
+      "Preheat oven",
+      "Mix ingredients",
+      "Bake 18 minutes"
+    ]
+  },
+
+  {
+    name: "Brownies",
+
+    image: "brownies.jpg",
+
+    type: "Brownies",
+
+    temp: "350°F",
+
+    time: 25,
+
+    ingredients: [
+      "Chocolate",
+      "Butter",
+      "Sugar"
+    ],
+
+    steps: [
+      "Mix ingredients",
+      "Pour into pan",
+      "Bake 25 minutes"
+    ]
+  },
+
+  {
+    name: "Chocolate Cake",
+
+    image: "Chocolate-cake.jpg",
+
+    type: "Cake",
+
+    temp: "350°F",
+
+    time: 30,
+
+    ingredients: [
+      "Flour",
+      "Sugar",
+      "Cocoa Powder"
+    ],
+
+    steps: [
+      "Mix ingredients",
+      "Pour into pan",
+      "Bake 30 minutes"
+    ]
+  },
+
+  {
+    name: "Chocolate Cupcakes",
+
+    image: "chocolate-cupcake.jpg",
+
+    type: "Cupcakes",
+
+    temp: "350°F",
+
+    time: 18,
+
+    ingredients: [
+      "Flour",
+      "Chocolate",
+      "Sugar"
+    ],
+
+    steps: [
+      "Mix ingredients",
+      "Fill cupcake liners",
+      "Bake 18 minutes"
+    ]
+  },
+
+  {
+    name: "Vanilla Cake",
+
+    image: "vanilla-cake.jpg",
+
+    type: "Cake",
+
+    temp: "350°F",
+
+    time: 30,
+
+    ingredients: [
+      "Flour",
+      "Vanilla",
+      "Sugar"
+    ],
+
+    steps: [
+      "Mix ingredients",
+      "Bake 30 minutes"
+    ]
+  },
+
+  {
+    name: "Vanilla Cupcakes",
+
+    image: "vanilla-cupcakes.jpg",
+
+    type: "Cupcakes",
+
+    temp: "350°F",
+
+    time: 18,
+
+    ingredients: [
+      "Flour",
+      "Vanilla",
+      "Butter"
+    ],
+
+    steps: [
+      "Mix ingredients",
+      "Bake 18 minutes"
+    ]
+  },
+
+  {
+    name: "Blueberry Muffins",
+
+    image: "blueberry-muffins.jpg",
+
+    type: "Muffins",
+
+    temp: "350°F",
+
+    time: 20,
+
+    ingredients: [
+      "Blueberries",
+      "Flour",
+      "Sugar"
+    ],
+
+    steps: [
+      "Mix ingredients",
+      "Pour into muffin tray",
+      "Bake 20 minutes"
+    ]
+  },
+
+  {
+    name: "Red Velvet Cupcakes",
+
+    image: "red-velvet-cupcakes.jpg",
+
+    type: "Cupcakes",
+
+    temp: "350°F",
+
+    time: 20,
+
+    ingredients: [
+      "Cocoa powder",
+      "Sugar",
+      "Food coloring"
+    ],
+
+    steps: [
+      "Mix ingredients",
+      "Fill cupcake liners",
+      "Bake 20 minutes"
+    ]
+  }
+
+];
+
+/* =========================
+   TIMER DISPLAY
+========================= */
 
 function updateTimerDisplay() {
-  const m = Math.floor(timeLeft / 60);
-  const s = timeLeft % 60;
 
-  document.getElementById("timer-display").textContent =
-    `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+  const minutes =
+    Math.floor(timeLeft / 60);
+
+  const seconds =
+    timeLeft % 60;
+
+  document.getElementById("timer-display")
+  .textContent =
+
+  `${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
+
 }
 
+/* =========================
+   START TIMER
+========================= */
+
 function startTimer() {
+
   if (isRunning) return;
+
   isRunning = true;
 
   timer = setInterval(() => {
+
     if (timeLeft > 0) {
+
       timeLeft--;
+
       updateTimerDisplay();
+
     } else {
+
       clearInterval(timer);
-      alert("⏰ Done!");
+
       isRunning = false;
+
+      alert("⏰ Baking Complete!");
+
     }
+
   }, 1000);
+
 }
+
+/* =========================
+   PAUSE TIMER
+========================= */
 
 function pauseTimer() {
+
   clearInterval(timer);
+
   isRunning = false;
+
 }
+
+/* =========================
+   RESET TIMER
+========================= */
 
 function resetTimer() {
+
   clearInterval(timer);
+
   isRunning = false;
+
   updateTimerDisplay();
+
 }
 
-// ================= FLOAT =================
-function randomizeIcons() {
-  document.querySelectorAll(".icon").forEach(icon => {
-    icon.style.left = Math.random()*180 + "px";
-    icon.style.top = Math.random()*180 + "px";
+/* =========================
+   SHOW RECIPE
+========================= */
+
+function showRecipe(recipe) {
+
+  /* NAME */
+
+  document.getElementById("recipe-name")
+  .textContent = recipe.name;
+
+  /* TYPE */
+
+  document.getElementById("recipe-type")
+  .textContent = recipe.type;
+
+  /* TEMP */
+
+  document.getElementById("recipe-temp")
+  .textContent =
+
+  "Bake at: " + recipe.temp;
+
+  /* TIME */
+
+  document.getElementById("recipe-time")
+  .textContent =
+
+  "Bake Time: " + recipe.time + " min";
+
+  /* IMAGE */
+
+  const img =
+    document.getElementById("recipe-image");
+
+  img.style.opacity = 0;
+
+  setTimeout(() => {
+
+    img.src = recipe.image;
+
+    img.style.opacity = 1;
+
+  }, 200);
+
+  /* INGREDIENTS */
+
+  const ingredientsList =
+    document.getElementById("ingredients-list");
+
+  ingredientsList.innerHTML = "";
+
+  recipe.ingredients.forEach(item => {
+
+    const li =
+      document.createElement("li");
+
+    li.textContent = item;
+
+    ingredientsList.appendChild(li);
+
   });
+
+  /* STEPS */
+
+  const stepsList =
+    document.getElementById("steps-list");
+
+  stepsList.innerHTML = "";
+
+  recipe.steps.forEach(step => {
+
+    const li =
+      document.createElement("li");
+
+    li.textContent = step;
+
+    stepsList.appendChild(li);
+
+  });
+
+  /* TIMER */
+
+  timeLeft = recipe.time * 60;
+
+  updateTimerDisplay();
+
 }
 
-// ================= SPIN =================
+/* =========================
+   SPIN ROULETTE
+========================= */
+
 function spinRoulette() {
 
   if (isSpinning) return;
+
   isSpinning = true;
 
-  clearInterval(spinInterval);
-  clearInterval(floatInterval);
+  /* WHEEL */
 
-  const sound = document.getElementById("spin-sound");
+  const wheel =
+    document.getElementById("wheel");
+
+  /* CARD */
+
+  const card =
+    document.querySelector(".card");
+
+  /* SOUND */
+
+  const sound =
+    document.getElementById("spin-sound");
+
+  /* PLAY SOUND */
+
+  sound.pause();
+
   sound.currentTime = 0;
+
   sound.play();
 
-  document.getElementById("ingredients-list").innerHTML = "";
-  document.getElementById("steps-list").innerHTML = "";
+  /* RANDOM ROTATION */
 
-  let count = 0;
-  let selected;
-  const img = document.getElementById("recipe-image");
+  const rotation =
+    3600 + Math.floor(Math.random() * 360);
 
-  floatInterval = setInterval(randomizeIcons, 100);
+  wheel.style.transform =
+    `rotate(${rotation}deg)`;
 
-  spinInterval = setInterval(() => {
+  /* RANDOM RECIPE */
 
-    selected = recipes[Math.floor(Math.random()*recipes.length)];
+  const selected =
+    recipes[Math.floor(Math.random() * recipes.length)];
 
-    document.getElementById("recipe-name").textContent = selected.name;
-    document.getElementById("recipe-type").textContent = selected.type;
-    document.getElementById("recipe-temp").textContent = "Bake at: " + selected.temp;
-    document.getElementById("recipe-time").textContent = "Bake Time: " + selected.time + " min";
-
-    img.style.opacity = 0;
-    setTimeout(() => {
-      img.src = selected.image;
-      img.style.opacity = 1;
-    }, 100);
-
-    count++;
-
-    if (count > 12) {
-      clearInterval(spinInterval);
-      clearInterval(floatInterval);
-
-      // load timer
-      timeLeft = selected.time * 60;
-      updateTimerDisplay();
-
-      showRecipe(selected);
-      selectIcon();
-
-      isSpinning = false;
-    }
-
-  }, 100);
-}
-
-// ================= DISPLAY =================
-function showRecipe(recipe) {
-  const ing = document.getElementById("ingredients-list");
-  const steps = document.getElementById("steps-list");
-
-  ing.innerHTML = "";
-  steps.innerHTML = "";
-
-  recipe.ingredients.forEach(i => {
-    const li = document.createElement("li");
-    li.textContent = i;
-    ing.appendChild(li);
-  });
-
-  recipe.steps.forEach(s => {
-    const li = document.createElement("li");
-    li.textContent = s;
-    steps.appendChild(li);
-  });
-}
-
-// ================= ICON SELECT =================
-function selectIcon() {
-  const icons = document.querySelectorAll(".icon");
-
-  icons.forEach(i => i.classList.remove("selected"));
-
-  const chosen = icons[Math.floor(Math.random()*icons.length)];
-  chosen.classList.add("selected");
+  /* WAIT FOR SPIN */
 
   setTimeout(() => {
-    chosen.classList.remove("selected");
-    randomizeIcons();
-  }, 2000);
+
+    /* SHOW RECIPE */
+
+    showRecipe(selected);
+
+    /* WIN GLOW */
+
+    card.classList.add("win");
+
+    setTimeout(() => {
+
+      card.classList.remove("win");
+
+    }, 1000);
+
+    /* STOP SOUND */
+
+    sound.pause();
+
+    sound.currentTime = 0;
+
+    /* SPIN COMPLETE */
+
+    isSpinning = false;
+
+  }, 4000);
+
 }
+
+/* =========================
+   START DISPLAY
+========================= */
+
+updateTimerDisplay();
